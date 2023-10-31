@@ -1,8 +1,13 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { useGetUsersQuery } from '../../store/api/usersApi';
-import { useDeleteUserMutation } from '../../store/api/usersApi';
+import { View, Text, FlatList, StyleSheet, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  useDeleteUserMutation,
+  useGetUsersQuery,
+  useUpdateUserMutation
+} from '../../store/api/usersApi';
 
 import { Button } from '@rneui/base';
+import { TabItem } from '@rneui/base/dist/Tab/Tab.Item';
 
 function deleteUser() {
   console.log('Tjaba');
@@ -10,46 +15,48 @@ function deleteUser() {
 
 export function UserList() {
   const [deleteUser] = useDeleteUserMutation();
+  const [updateUser, { isLoading, isError, error }] = useUpdateUserMutation();
+
+  const [firstName, setFirstName] = useState('');
+
   const { data, refetch } = useGetUsersQuery({});
-  console.log('data: ', data);
+  // console.log('data: ', data);
 
   if (!data) {
     return <Text>Loading...</Text>;
-  }
+  } else {
+    //console.log('data: ', data[0].firstName);
 
-  return (
-    <View style={styles.container}>
-      <View>
-        <FlatList
-          data={data}
-          renderItem={({ item }) => (
-            <View style={styles.container}>
-              <Text style={styles.item}>
-                {item.firstName} {item.lastName}
-              </Text>
-              <Button
-                title="DELETE"
-                onPress={() => {
-                  deleteUser(item.id).then((response) => {
-                    // Handle success, update the UI, show a confirmation message, etc.
-                    refetch();
-                  });
+    return (
+      <View style={styles.container}>
+        <View>
+          {data.map((user) => {
+            return (
+              <TextInput
+                key={user.id}
+                onChangeText={(text) => {
+                  console.log('text: ', text);
+                  // console.log('user.firstName: ', user.firstName);
                 }}
-              ></Button>
-            </View>
-          )}
-        />
-        <Button onPress={refetch}>Uppdatera</Button>
+              >
+                {user.firstName}
+              </TextInput>
+            );
+          })}
+
+          <Button onPress={refetch}>Uppdatera</Button>
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 12,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   sectionHeader: {
     paddingTop: 2,
@@ -64,5 +71,11 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     height: 44
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10
   }
 });

@@ -25,27 +25,29 @@ export function UserList() {
   if (!data) {
     return <Text>Loading...</Text>;
   } else {
-    console.log('data: ', data[0].firstName);
-
     return (
       <View style={styles.container}>
         <View>
-          {data.map((user) => {
-            return (
-              <View key={user.id}>
-                <Text>{user.firstName}</Text>
-                <Button
-                  onPress={() => {
-                    deleteUser(user.id);
-                    refetch();
-                  }}
-                >
-                  DELETE
-                </Button>
-              </View>
-            );
-          })}
-          <Button onPress={refetch}>Uppdatera</Button>
+          {data.length > 0 ? (
+            data.map((user) => {
+              return (
+                <View key={user.id}>
+                  <Text>{user.firstName}</Text>
+                  <Text>{user.lastName}</Text>
+                  <Button
+                    onPress={() => {
+                      deleteUser(user.id);
+                    }}
+                  >
+                    DELETE
+                  </Button>
+                </View>
+              );
+            })
+          ) : (
+            <Text>Finns inga Användare!</Text>
+          )}
+          <Button onPress={refetch}>UPDATE</Button>
         </View>
       </View>
     );

@@ -27,8 +27,7 @@ export function UserForm() {
 
       setTimeout(() => {
         setFeedback('');
-        refetch();
-      }, 5000);
+      }, 1000);
 
       const response = await createUser({
         user: {

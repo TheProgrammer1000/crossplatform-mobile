@@ -26,7 +26,6 @@ function EditUsersScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <EditUsers />
-      <Text>Edit Users!</Text>
     </View>
   );
 }

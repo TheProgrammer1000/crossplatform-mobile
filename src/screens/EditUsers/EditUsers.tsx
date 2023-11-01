@@ -7,22 +7,10 @@ import {
 } from '../../store/api/usersApi';
 
 import { Button } from '@rneui/base';
-import { TabItem } from '@rneui/base/dist/Tab/Tab.Item';
-
-function deleteUser() {
-  console.log('Tjaba');
-}
-
-function ChangeTextHandler(text, index, userArray) {
-  console.log('userArrayIndex: ', userArray[index]);
-  userArray[index].firstName = `${text}`;
-}
 
 export function EditUsers() {
   const [deleteUser] = useDeleteUserMutation();
   const [updateUser, { isLoading, isError, error }] = useUpdateUserMutation();
-
-  const [firstName, setFirstName] = useState('');
 
   const { data, refetch } = useGetUsersQuery({});
   // console.log('data: ', data);
@@ -30,32 +18,53 @@ export function EditUsers() {
   if (!data) {
     return <Text>Loading...</Text>;
   } else {
-    console.log('data: ', data[0].firstName);
     const userArray = data;
 
     return (
       <View style={styles.container}>
         <View>
-          {userArray.map((user, index) => {
-            return (
-              <View key={user.id}>
-                <TextInput
-                  onChangeText={(text) =>
-                    ChangeTextHandler(text, index, userArray)
-                  }
-                  value={userArray[index].firstName}
-                />
-                <Button
-                  onPress={() => {
-                    console.log(user.firstName);
-                  }}
-                >
-                  EDIT
-                </Button>
-              </View>
-            );
-          })}
-          <Button onPress={refetch}>Uppdatera</Button>
+          {userArray.length > 0 ? (
+            userArray.map((user, index) => {
+              const [firstName, setFirstName] = useState(user.firstName);
+              const [lastName, setLastName] = useState(user.lastName);
+
+              return (
+                <View key={user.id}>
+                  <TextInput
+                    onChangeText={(newText) => setFirstName(newText)}
+                    value={firstName}
+                  />
+                  <TextInput
+                    onChangeText={(newText) => setLastName(newText)}
+                    value={lastName}
+                  />
+                  <Button
+                    onPress={async () => {
+                      console.log('firstName: ', firstName);
+                      console.log('lastName: ', lastName);
+                      const response = await updateUser({
+                        user: {
+                          id: user.id,
+                          firstName: firstName,
+                          lastName: lastName
+                        }
+                      }).then((response) => {
+                        console.log(response);
+                        // Update the query data with the new user
+                        refetch();
+                      });
+                    }}
+                  >
+                    EDIT
+                  </Button>
+                </View>
+              );
+            })
+          ) : (
+            //<Button onPress={refetch}>Uppdatera</Button>
+
+            <Text>Finns inga Användare!</Text>
+          )}
         </View>
       </View>
     );

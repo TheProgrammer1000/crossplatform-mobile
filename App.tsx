@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './src/store/store';
 import { UserList } from './src/screens/UserList/UserList';
+import { EditUsers } from './src/screens/EditUsers/EditUsers';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,8 +22,16 @@ function DetailsScreen() {
   );
 }
 
-function HomeScreen({ navigation }) {
+function EditUsersScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <EditUsers />
+      <Text>Edit Users!</Text>
+    </View>
+  );
+}
 
+function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       {/* <Text>Home Screen</Text>
@@ -49,6 +58,7 @@ export default function App() {
             options={{ title: 'Overview' }}
           />
           <Tab.Screen name="Details" component={DetailsScreen} />
+          <Tab.Screen name="EditUsersScreen" component={EditUsersScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     </Provider>

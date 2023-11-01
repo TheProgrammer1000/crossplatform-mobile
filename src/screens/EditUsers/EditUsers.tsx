@@ -13,7 +13,12 @@ function deleteUser() {
   console.log('Tjaba');
 }
 
-export function UserList() {
+function ChangeTextHandler(text, index, userArray) {
+  console.log('userArrayIndex: ', userArray[index]);
+  userArray[index].firstName = `${text}`;
+}
+
+export function EditUsers() {
   const [deleteUser] = useDeleteUserMutation();
   const [updateUser, { isLoading, isError, error }] = useUpdateUserMutation();
 
@@ -26,21 +31,26 @@ export function UserList() {
     return <Text>Loading...</Text>;
   } else {
     console.log('data: ', data[0].firstName);
+    const userArray = data;
 
     return (
       <View style={styles.container}>
         <View>
-          {data.map((user) => {
+          {userArray.map((user, index) => {
             return (
               <View key={user.id}>
-                <Text>{user.firstName}</Text>
+                <TextInput
+                  onChangeText={(text) =>
+                    ChangeTextHandler(text, index, userArray)
+                  }
+                  value={userArray[index].firstName}
+                />
                 <Button
                   onPress={() => {
-                    deleteUser(user.id);
-                    refetch();
+                    console.log(user.firstName);
                   }}
                 >
-                  DELETE
+                  EDIT
                 </Button>
               </View>
             );

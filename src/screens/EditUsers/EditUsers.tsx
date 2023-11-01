@@ -1,7 +1,6 @@
 import { View, Text, FlatList, StyleSheet, TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {
-  useDeleteUserMutation,
   useGetUsersQuery,
   useUpdateUserMutation
 } from '../../store/api/usersApi';
@@ -9,11 +8,9 @@ import {
 import { Button } from '@rneui/base';
 
 export function EditUsers() {
-  const [deleteUser] = useDeleteUserMutation();
   const [updateUser, { isLoading, isError, error }] = useUpdateUserMutation();
 
   const { data, refetch } = useGetUsersQuery({});
-  // console.log('data: ', data);
 
   if (!data) {
     return <Text>Loading...</Text>;
@@ -40,19 +37,15 @@ export function EditUsers() {
                   />
                   <Button
                     onPress={async () => {
-                      console.log('firstName: ', firstName);
-                      console.log('lastName: ', lastName);
                       const response = await updateUser({
                         user: {
                           id: user.id,
                           firstName: firstName,
                           lastName: lastName
                         }
-                      }).then((response) => {
-                        console.log(response);
-                        // Update the query data with the new user
-                        refetch();
                       });
+                      const result = await response;
+                      console.log('result: ', result);
                     }}
                   >
                     EDIT
@@ -61,8 +54,6 @@ export function EditUsers() {
               );
             })
           ) : (
-            //<Button onPress={refetch}>Uppdatera</Button>
-
             <Text>Finns inga Användare!</Text>
           )}
         </View>

@@ -34,11 +34,10 @@ export function UserForm() {
           firstName: firstName,
           lastName: lastName
         }
-      }).then((response) => {
-        console.log(response);
-        // Update the query data with the new user
-        refetch();
       });
+
+      const result = await response;
+      console.log('result: ', result);
     } else {
       console.log('submitted: ', submitted);
       setSubmitted(false);
@@ -51,14 +50,14 @@ export function UserForm() {
       <TextComp title="FirstName" />
 
       <TextInput
-        placeholder="firstName..."
+        placeholder="..."
         value={firstName}
         onChangeText={(text) => setFirstName(text)}
       ></TextInput>
 
       <TextComp title="LastName" />
       <TextInput
-        placeholder="lastName..."
+        placeholder="..."
         value={lastName}
         onChangeText={(text) => setLastName(text)}
       ></TextInput>

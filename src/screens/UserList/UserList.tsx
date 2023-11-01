@@ -2,22 +2,13 @@ import { View, Text, FlatList, StyleSheet, TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {
   useDeleteUserMutation,
-  useGetUsersQuery,
-  useUpdateUserMutation
+  useGetUsersQuery
 } from '../../store/api/usersApi';
 
 import { Button } from '@rneui/base';
-import { TabItem } from '@rneui/base/dist/Tab/Tab.Item';
-
-function deleteUser() {
-  console.log('Tjaba');
-}
 
 export function UserList() {
   const [deleteUser] = useDeleteUserMutation();
-  const [updateUser, { isLoading, isError, error }] = useUpdateUserMutation();
-
-  const [firstName, setFirstName] = useState('');
 
   const { data, refetch } = useGetUsersQuery({});
   // console.log('data: ', data);
@@ -29,21 +20,19 @@ export function UserList() {
       <View style={styles.container}>
         <View>
           {data.length > 0 ? (
-            data.map((user) => {
-              return (
-                <View key={user.id}>
-                  <Text>{user.firstName}</Text>
-                  <Text>{user.lastName}</Text>
-                  <Button
-                    onPress={() => {
-                      deleteUser(user.id);
-                    }}
-                  >
-                    DELETE
-                  </Button>
-                </View>
-              );
-            })
+            data.map((user) => (
+              <View key={user.id}>
+                <Text>{user.firstName}</Text>
+                <Text>{user.lastName}</Text>
+                <Button
+                  onPress={() => {
+                    deleteUser(user.id);
+                  }}
+                >
+                  DELETE
+                </Button>
+              </View>
+            ))
           ) : (
             <Text>Finns inga Användare!</Text>
           )}

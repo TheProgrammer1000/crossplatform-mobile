@@ -30,7 +30,7 @@ const firebaseBaseQuery = async ({ baseUrl, url, method, body }) => {
       return { data: { body } };
 
     case 'PUT':
-      await updateDoc(doc(db, url, body.id), {});
+      await updateDoc(doc(db, url, body.id), body);
 
       return { data: { body } };
 

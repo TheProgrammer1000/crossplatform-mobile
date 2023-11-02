@@ -32,7 +32,7 @@ function EditUsersScreen() {
 
 function HomeScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#333' }}>
       {/* <Text>Home Screen</Text>
       <Button
         title="Go to Details"

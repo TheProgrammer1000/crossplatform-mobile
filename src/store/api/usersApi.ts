@@ -57,7 +57,7 @@ export const usersApi = createApi({
         url: 'users',
         method: 'GET', // PUT = modifiera data - DELETE = ta bort data
         body: ''
-      })
+      }),
     }),
     deleteUser: builder.mutation({
       query: (id) => ({

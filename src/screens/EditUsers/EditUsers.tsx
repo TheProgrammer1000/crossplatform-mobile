@@ -9,7 +9,6 @@ import { Button } from '@rneui/base';
 
 export function EditUsers() {
   const [updateUser, { isLoading, isError, error }] = useUpdateUserMutation();
-
   const { data, refetch } = useGetUsersQuery({});
 
   if (!data) {
@@ -17,31 +16,41 @@ export function EditUsers() {
   } else {
     const userArray = data;
 
+    // Define a state variable to store user data
+    const [userDetails, setUserDetails] = useState(userArray);
+
     return (
-      <View style={styles.container}>
+      <View>
         <View>
-          {userArray.length > 0 ? (
-            userArray.map((user, index) => {
+          {userDetails.length > 0 ? (
+            userDetails.map((user, index) => {
+              const userId = user.id;
+
+              // Use state variables for first name and last name
               const [firstName, setFirstName] = useState(user.firstName);
               const [lastName, setLastName] = useState(user.lastName);
 
               return (
-                <View key={user.id}>
+                <View key={userId}>
                   <TextInput
-                    onChangeText={(newText) => setFirstName(newText)}
+                    onChangeText={(newText) => {
+                      setFirstName(newText); // Update the state when the text changes
+                    }}
                     value={firstName}
                   />
                   <TextInput
-                    onChangeText={(newText) => setLastName(newText)}
+                    onChangeText={(newText) => {
+                      setLastName(newText); // Update the state when the text changes
+                    }}
                     value={lastName}
                   />
                   <Button
                     onPress={async () => {
                       const response = await updateUser({
                         user: {
-                          id: user.id,
-                          firstName: firstName,
-                          lastName: lastName
+                          id: userId,
+                          firstName: firstName, // Use the updated first name
+                          lastName: lastName // Use the updated last name
                         }
                       });
                       const result = await response;
@@ -63,30 +72,5 @@ export function EditUsers() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 12,
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-  },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 2,
-    fontSize: 14,
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(247,247,247,1.0)'
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10
-  }
+  // Your styles here
 });

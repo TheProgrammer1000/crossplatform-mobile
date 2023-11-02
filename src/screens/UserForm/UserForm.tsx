@@ -1,9 +1,8 @@
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { TextComp } from '../../components/TextComp/TextComp';
 import { Button } from '@rneui/base';
 import { useCreateUserMutation } from '../../store/api/usersApi';
 import { useGetUsersQuery } from '../../store/api/usersApi';
-
 import { useState } from 'react';
 
 export function UserForm() {
@@ -47,20 +46,25 @@ export function UserForm() {
 
   return (
     <View>
-      <TextComp title="FirstName" />
+      <Text style={{fontSize: 24, marginBottom: 50, color: 'white'}}>YOUR NAME PLEASE</Text>
+      <View style={styles.container}>
+        <TextComp title="FirstName" />
 
-      <TextInput
-        placeholder="..."
-        value={firstName}
-        onChangeText={(text) => setFirstName(text)}
-      ></TextInput>
+        <TextInput
+          placeholder="..."
+          value={firstName}
+          onChangeText={(text) => setFirstName(text)}
+        ></TextInput>
+      </View>
 
-      <TextComp title="LastName" />
-      <TextInput
-        placeholder="..."
-        value={lastName}
-        onChangeText={(text) => setLastName(text)}
-      ></TextInput>
+      <View style={styles.container}>
+        <TextComp title="LastName" />
+        <TextInput
+          placeholder="..."
+          value={lastName}
+          onChangeText={(text) => setLastName(text)}
+        ></TextInput>
+      </View>
 
       <Button title="Lägg till användare" onPress={submitHandler} />
 
@@ -68,3 +72,14 @@ export function UserForm() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    borderColor: '#333',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRadius: 2,
+    padding: 10,
+    backgroundColor: '#fff'
+  },
+});

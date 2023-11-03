@@ -14,10 +14,10 @@ export function EditUsers() {
   if (!data) {
     return <Text>Loading...</Text>;
   } else {
-    const userArray = data;
-
     // Define a state variable to store user data
-    const [userDetails, setUserDetails] = useState(userArray);
+    const [userDetails, setUserDetails] = useState(data);
+
+    console.log('userDetails: ', userDetails);
 
     return (
       <View>

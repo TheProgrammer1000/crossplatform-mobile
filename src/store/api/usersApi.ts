@@ -42,6 +42,7 @@ const firebaseBaseQuery = async ({ baseUrl, url, method, body }) => {
 export const usersApi = createApi({
   reducerPath: 'usersApi',
   baseQuery: firebaseBaseQuery,
+  tagTypes: ['users'],
   endpoints: (builder) => ({
     createUser: builder.mutation({
       query: ({ user }) => ({
@@ -49,7 +50,8 @@ export const usersApi = createApi({
         url: 'users',
         method: 'POST', // PUT = modifiera data - DELETE = ta bort data
         body: user
-      })
+      }),
+      invalidatesTags: ['users']
     }),
     getUsers: builder.query({
       query: () => ({
@@ -58,6 +60,7 @@ export const usersApi = createApi({
         method: 'GET', // PUT = modifiera data - DELETE = ta bort data
         body: ''
       }),
+      providesTags: ['users']
     }),
     deleteUser: builder.mutation({
       query: (id) => ({
@@ -65,7 +68,8 @@ export const usersApi = createApi({
         url: `users`,
         method: 'DELETE', // Use 'DELETE' method for deleting a user
         body: { id: id }
-      })
+      }),
+      invalidatesTags: ['users']
     }),
     updateUser: builder.mutation({
       query: ({ user }) => ({
@@ -73,7 +77,8 @@ export const usersApi = createApi({
         url: 'users',
         method: 'PUT',
         body: user
-      })
+      }),
+      invalidatesTags: ['users']
     })
     // Lägg till din getUsers här
   })

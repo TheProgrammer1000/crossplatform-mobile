@@ -36,7 +36,6 @@ export function UserList() {
           ) : (
             <Text>Finns inga Användare!</Text>
           )}
-          <Button onPress={refetch}>UPDATE</Button>
         </View>
       </View>
     );

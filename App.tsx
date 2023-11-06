@@ -22,6 +22,14 @@ function DetailsScreen() {
   );
 }
 
+const UserListStackScreen = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="UserList" component={UserList} />
+    </Stack.Navigator>
+  );
+};
+
 function EditUsersScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -32,14 +40,7 @@ function EditUsersScreen() {
 
 function HomeScreen({ navigation }) {
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#333'
-      }}
-    >
+    <View>
       {/* <Text>Home Screen</Text>
       <Button
         title="Go to Details"
@@ -62,8 +63,9 @@ export default function App() {
             name="Home"
             component={HomeScreen}
             options={{ title: 'Overview' }}
+    
           />
-          <Tab.Screen name="Details" component={DetailsScreen} />
+          <Tab.Screen name="UserList" component={UserListStackScreen} />
           <Tab.Screen name="EditUsersScreen" component={EditUsersScreen} />
         </Tab.Navigator>
       </NavigationContainer>

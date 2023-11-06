@@ -1,18 +1,26 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard
+} from 'react-native';
 import { TextComp } from '../../components/TextComp/TextComp';
-import { Button } from '@rneui/base';
+import { Button, Input } from '@rneui/base';
 import { useCreateUserMutation } from '../../store/api/usersApi';
 import { useGetUsersQuery } from '../../store/api/usersApi';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export function UserForm() {
-  const [createUser] = useCreateUserMutation();
+  const [createUser, { isLoading }] = useCreateUserMutation();
   const { data, refetch } = useGetUsersQuery({});
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [feedback, setFeedback] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const lastNameRef = useRef(null);
 
   const submitHandler = async () => {
     if (firstName !== '' && lastName !== '') {
@@ -45,41 +53,47 @@ export function UserForm() {
   };
 
   return (
-    <View>
-      <Text style={{fontSize: 24, marginBottom: 50, color: 'white'}}>YOUR NAME PLEASE</Text>
-      <View style={styles.container}>
-        <TextComp title="FirstName" />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View>
+        <View style={styles.container}>
+          <Input
+            placeholder="First Name"
+            value={firstName}
+            returnKeyType="next"
+            onSubmitEditing={() => {
+              lastNameRef.current.focus();
+            }}
+            disabled={isLoading}
+            blurOnSubmit={false}
+            onChangeText={(text) => setFirstName(text)}
+          ></Input>
+        </View>
 
-        <TextInput
-          placeholder="..."
-          value={firstName}
-          onChangeText={(text) => setFirstName(text)}
-        ></TextInput>
+        <View>
+          <Input
+            placeholder="Last Name"
+            value={lastName}
+            ref={lastNameRef}
+            disabled={isLoading}
+            returnKeyType="send"
+            onSubmitEditing={() => submitHandler()}
+            onChangeText={(text) => setLastName(text)}
+          ></Input>
+        </View>
+
+        <Button
+          title="Lägg till användare"
+          onPress={submitHandler}
+          loading={isLoading}
+          disabled={isLoading}
+        />
+
+        <TextComp title={feedback} />
       </View>
-
-      <View style={styles.container}>
-        <TextComp title="LastName" />
-        <TextInput
-          placeholder="..."
-          value={lastName}
-          onChangeText={(text) => setLastName(text)}
-        ></TextInput>
-      </View>
-
-      <Button title="Lägg till användare" onPress={submitHandler} />
-
-      <TextComp title={feedback} />
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderColor: '#333',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: 2,
-    padding: 10,
-    backgroundColor: '#fff'
-  },
+  container: {}
 });

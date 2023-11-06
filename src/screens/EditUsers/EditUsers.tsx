@@ -1,4 +1,11 @@
-import { View, Text, FlatList, StyleSheet, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TextInput,
+  ScrollView
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {
   useGetUsersQuery,
@@ -20,53 +27,55 @@ export function EditUsers() {
     console.log('userDetails: ', userDetails);
 
     return (
-      <View>
+      <ScrollView>
         <View>
-          {userDetails.length > 0 ? (
-            userDetails.map((user, index) => {
-              const userId = user.id;
+          <View>
+            {userDetails.length > 0 ? (
+              userDetails.map((user, index) => {
+                const userId = user.id;
 
-              // Use state variables for first name and last name
-              const [firstName, setFirstName] = useState(user.firstName);
-              const [lastName, setLastName] = useState(user.lastName);
+                // Use state variables for first name and last name
+                const [firstName, setFirstName] = useState(user.firstName);
+                const [lastName, setLastName] = useState(user.lastName);
 
-              return (
-                <View key={userId}>
-                  <TextInput
-                    onChangeText={(newText) => {
-                      setFirstName(newText); // Update the state when the text changes
-                    }}
-                    value={firstName}
-                  />
-                  <TextInput
-                    onChangeText={(newText) => {
-                      setLastName(newText); // Update the state when the text changes
-                    }}
-                    value={lastName}
-                  />
-                  <Button
-                    onPress={async () => {
-                      const response = await updateUser({
-                        user: {
-                          id: userId,
-                          firstName: firstName, // Use the updated first name
-                          lastName: lastName // Use the updated last name
-                        }
-                      });
-                      const result = await response;
-                      console.log('result: ', result);
-                    }}
-                  >
-                    EDIT
-                  </Button>
-                </View>
-              );
-            })
-          ) : (
-            <Text>Finns inga Användare!</Text>
-          )}
+                return (
+                  <View key={userId}>
+                    <TextInput
+                      onChangeText={(newText) => {
+                        setFirstName(newText); // Update the state when the text changes
+                      }}
+                      value={firstName}
+                    />
+                    <TextInput
+                      onChangeText={(newText) => {
+                        setLastName(newText); // Update the state when the text changes
+                      }}
+                      value={lastName}
+                    />
+                    <Button
+                      onPress={async () => {
+                        const response = await updateUser({
+                          user: {
+                            id: userId,
+                            firstName: firstName, // Use the updated first name
+                            lastName: lastName // Use the updated last name
+                          }
+                        });
+                        const result = await response;
+                        console.log('result: ', result);
+                      }}
+                    >
+                      EDIT
+                    </Button>
+                  </View>
+                );
+              })
+            ) : (
+              <Text>Finns inga Användare!</Text>
+            )}
+          </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

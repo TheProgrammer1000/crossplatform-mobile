@@ -6,7 +6,7 @@ import { Button } from '@rneui/base';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { UserForm } from './src/screens/UserForm/UserForm';
 import { useState } from 'react';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { store } from './src/store/store';
 import { UserList } from './src/screens/UserList/UserList';
 import { EditUsers } from './src/screens/EditUsers/EditUsers';
@@ -54,22 +54,34 @@ function HomeScreen({ navigation }) {
   );
 }
 
+const NavigationWrapper = () => {
+  const loggedInAs = useSelector((state: any) => state.auth.loggedInAs);
+
+  console.log('loggedInAs: ', loggedInAs);
+
+  return (
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: 'Overview' }}
+        />
+        <Tab.Screen name="UserList" component={UserListStackScreen} />
+        <Tab.Screen name="EditUsersScreen" component={EditUsersScreen} />
+
+        {loggedInAs && <Tab.Screen name="UserInfo" component={UserInfo} />}
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+};
+
 export default function App() {
   const [showUserList, setShowUserList] = useState(false);
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Tab.Navigator screenOptions={{ headerShown: false }}>
-          <Tab.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ title: 'Overview' }}
-          />
-          <Tab.Screen name="UserList" component={UserListStackScreen} />
-          <Tab.Screen name="EditUsersScreen" component={EditUsersScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
+      <NavigationWrapper />
     </Provider>
   );
 }

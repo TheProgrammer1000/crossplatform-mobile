@@ -4,7 +4,8 @@ import {
   FlatList,
   StyleSheet,
   TextInput,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -14,11 +15,10 @@ import {
 
 import { Button } from '@rneui/base';
 
-export function UserList() {
+export function UserList({ navigation, route }) {
   const [deleteUser] = useDeleteUserMutation();
 
   const { data, refetch } = useGetUsersQuery({});
-  // console.log('data: ', data);
 
   if (!data) {
     return <Text>Loading...</Text>;
@@ -28,7 +28,11 @@ export function UserList() {
         <View>
           {data.length > 0 ? (
             data.map((user) => (
-              <View key={user.id} style={styles.container}>
+              <TouchableOpacity
+                key={user.id}
+                style={styles.container}
+                onPress={() => navigation.navigate('UserInfo', { user: user })}
+              >
                 <Text style={styles.text}>
                   {user.firstName} {user.lastName}
                 </Text>
@@ -39,7 +43,7 @@ export function UserList() {
                 >
                   DELETE
                 </Button>
-              </View>
+              </TouchableOpacity>
             ))
           ) : (
             <Text>Finns inga Användare!</Text>

@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import { store } from './src/store/store';
 import { UserList } from './src/screens/UserList/UserList';
 import { EditUsers } from './src/screens/EditUsers/EditUsers';
+import { UserInfo } from './src/screens/UserInfo/UserInfo';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -26,6 +27,7 @@ const UserListStackScreen = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="UserList" component={UserList} />
+      <Stack.Screen name="UserInfo" component={UserInfo} />
     </Stack.Navigator>
   );
 };
@@ -58,12 +60,11 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
           <Tab.Screen
             name="Home"
             component={HomeScreen}
             options={{ title: 'Overview' }}
-    
           />
           <Tab.Screen name="UserList" component={UserListStackScreen} />
           <Tab.Screen name="EditUsersScreen" component={EditUsersScreen} />

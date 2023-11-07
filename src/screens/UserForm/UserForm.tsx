@@ -55,10 +55,6 @@ export function UserForm() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-        <View style={styles.headerText}>
-          <Text>TJABA</Text>
-        </View>
-
         <View>
           <Input
             placeholder="First Name"
@@ -100,20 +96,9 @@ export function UserForm() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    margin: 24,
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 36
-  },
-  infoContainer: {
-    marginBottom: 24
-  },
-  actionsContainer: {
-    marginBottom: 24
-  },
-  headerText: {
-    fontWeight: '700',
-    fontSize: 30
+    margin: 20,
+    marginTop: 150,
+    padding: 10,
+    backgroundColor: '#fff'
   }
 });

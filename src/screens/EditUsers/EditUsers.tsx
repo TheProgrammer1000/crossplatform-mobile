@@ -64,14 +64,21 @@ export function EditUsers() {
     // Define a state variable to store user data
 
     return (
-      <FlatList
-        data={data}
-        renderItem={({ item }) => <EditUser user={item} key={item.id} />}
-      />
+      <View style={styles.container}>
+        <FlatList
+          data={data}
+          renderItem={({ item }) => <EditUser user={item} key={item.id} />}
+        />
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   // Your styles here
+  container: {
+    margin: 20,
+    marginTop: 20,
+    padding: 10
+  }
 });

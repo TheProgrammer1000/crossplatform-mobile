@@ -80,7 +80,47 @@ export const usersApi = createApi({
       }),
       invalidatesTags: ['users']
     })
-    // Lägg till din getUsers här
+  })
+});
+
+
+
+export const postsApi = createApi({
+  reducerPath: 'postsApi',
+  baseQuery: firebaseBaseQuery,
+  endpoints: (builder) => ({
+    createPost: builder.mutation({
+      query: ({ posts }) => ({
+        baseUrl: '',
+        url: 'posts',
+        method: 'POST', // PUT = modifiera data - DELETE = ta bort data
+        body: posts
+      }),
+    }),
+    getPosts: builder.query({
+      query: () => ({
+        baseUrl: '',
+        url: 'posts',
+        method: 'GET', // PUT = modifiera data - DELETE = ta bort data
+        body: ''
+      }),
+    }),
+    deletePost: builder.mutation({
+      query: (id) => ({
+        baseUrl: '',
+        url: `posts`,
+        method: 'DELETE', // Use 'DELETE' method for deleting a user
+        body: { id: id }
+      }),
+    }),
+    updatePost: builder.mutation({
+      query: ({ posts }) => ({
+        baseUrl: '',
+        url: 'posts',
+        method: 'PUT',
+        body: posts
+      }),
+    })
   })
 });
 
@@ -90,3 +130,10 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation
 } = usersApi;
+
+export const {
+  useCreatePostMutation,
+  useGetPostsQuery,
+  useDeletePostMutation,
+  useUpdatePostMutation
+} = postsApi;

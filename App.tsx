@@ -8,9 +8,11 @@ import { UserForm } from './src/screens/UserForm/UserForm';
 import { useState } from 'react';
 import { Provider, useSelector } from 'react-redux';
 import { store } from './src/store/store';
-import { UserList } from './src/screens/UserList/UserList';
 import { EditUsers } from './src/screens/EditUsers/EditUsers';
 import { UserInfo } from './src/screens/UserInfo/UserInfo';
+import { PostForm } from './src/screens/PostForm/PostForm';
+import { UserList } from './src/screens/UserList/UserList';
+import PostList from './src/screens/PostList/PostList';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -70,7 +72,14 @@ const NavigationWrapper = () => {
         <Tab.Screen name="UserList" component={UserListStackScreen} />
         <Tab.Screen name="EditUsersScreen" component={EditUsersScreen} />
 
-        {loggedInAs && <Tab.Screen name="UserInfo" component={UserInfo} />}
+        {loggedInAs ? (
+        <>
+          <Tab.Screen name="UserInfo" component={UserInfo} />
+          <Tab.Screen name="PostForm" component={PostForm} />
+          <Tab.Screen name="PostList" component={PostList} />
+          </>
+        ): null
+        }
       </Tab.Navigator>
     </NavigationContainer>
   );

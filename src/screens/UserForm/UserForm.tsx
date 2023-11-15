@@ -1,54 +1,57 @@
+import { Button, Input } from "@rneui/base";
+import { useState, useRef } from "react";
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
   TouchableWithoutFeedback,
-  Keyboard
-} from 'react-native';
-import { TextComp } from '../../components/TextComp/TextComp';
-import { Button, Input } from '@rneui/base';
-import { useCreateUserMutation } from '../../store/api/usersApi';
-import { useGetUsersQuery } from '../../store/api/usersApi';
-import { useState, useRef } from 'react';
+  Keyboard,
+} from "react-native";
+
+import { TextComp } from "../../components/TextComp/TextComp";
+import {
+  useCreateUserMutation,
+  useGetUsersQuery,
+} from "../../store/api/usersApi";
 
 export function UserForm() {
   const [createUser, { isLoading }] = useCreateUserMutation();
   const { data, refetch } = useGetUsersQuery({});
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [feedback, setFeedback] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [feedback, setFeedback] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const lastNameRef = useRef(null);
 
   const submitHandler = async () => {
-    if (firstName !== '' && lastName !== '') {
+    if (firstName !== "" && lastName !== "") {
       //console.log('firstName: ', firstName, 'lastName: ', lastName);
       setFeedback(`Hej, ${firstName} ${lastName}, välkommen!`);
       setSubmitted(true);
-      setFirstName('');
-      setLastName('');
+      setFirstName("");
+      setLastName("");
 
       console.log(submitted);
 
       setTimeout(() => {
-        setFeedback('');
+        setFeedback("");
       }, 1000);
 
       const response = await createUser({
         user: {
-          firstName: firstName,
-          lastName: lastName
-        }
+          firstName,
+          lastName,
+        },
       });
 
       const result = await response;
-      console.log('result: ', result);
+      console.log("result: ", result);
     } else {
-      console.log('submitted: ', submitted);
+      console.log("submitted: ", submitted);
       setSubmitted(false);
-      setFeedback('Du måste fylla i alla fält!');
+      setFeedback("Du måste fylla i alla fält!");
     }
   };
 
@@ -66,7 +69,7 @@ export function UserForm() {
             disabled={isLoading}
             blurOnSubmit={false}
             onChangeText={(text) => setFirstName(text)}
-          ></Input>
+          />
         </View>
 
         <View>
@@ -78,7 +81,7 @@ export function UserForm() {
             returnKeyType="send"
             onSubmitEditing={() => submitHandler()}
             onChangeText={(text) => setLastName(text)}
-          ></Input>
+          />
         </View>
 
         <Button
@@ -99,6 +102,6 @@ const styles = StyleSheet.create({
     margin: 20,
     marginTop: 150,
     padding: 10,
-    backgroundColor: '#fff'
-  }
+    backgroundColor: "#fff",
+  },
 });

@@ -38,7 +38,16 @@ export function UserItem(props) {
         <Text>Loading...</Text>
       ) : (
         <View>
-          <BouncyCheckbox onPress={(isChecked: boolean) => {}} />
+          <BouncyCheckbox
+            onPress={(isChecked: boolean) => {
+              console.log(isChecked);
+              props.onDataFromChild({
+                isChecked,
+                nameID: props.id,
+                firstName: props.firstName,
+              });
+            }}
+          />
           <Button onPress={deleteHandler}>Delete</Button>
         </View>
       )}

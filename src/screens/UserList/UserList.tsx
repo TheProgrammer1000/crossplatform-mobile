@@ -1,10 +1,14 @@
-import { ListItem } from "@rneui/themed";
-import { useMemo } from "react";
+import { ListItem, Button } from "@rneui/themed";
+import { useMemo, useState } from "react";
 import { View, Text, FlatList } from "react-native";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
+import { UserItem } from "../../components/UserItem/UserItem";
 import { useGetUsersQuery } from "../../store/api/usersApi";
 
 export function UserList({ navigation }) {
+  const [isSelected, setSelection] = useState(false);
+
   const { data, isLoading } = useGetUsersQuery({});
 
   // useMemo is used to memoize the sorted user list
@@ -38,8 +42,9 @@ export function UserList({ navigation }) {
                 navigation.navigate("UserInfo", { user: item });
               }}
             >
-              <ListItem.Content>
+              <ListItem.Content style={{ flex: 1, flexDirection: "row" }}>
                 <ListItem.Title>{`${item.firstName} ${item.lastName}`}</ListItem.Title>
+                <UserItem id={item.id} firstName={item.firstName} />
               </ListItem.Content>
             </ListItem>
           )}

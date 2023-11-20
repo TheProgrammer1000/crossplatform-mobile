@@ -6,7 +6,7 @@ import { useGetPostsQuery } from "../../store/api/postsApi";
 export function PostList({ navigation }) {
   const { data, isLoading } = useGetPostsQuery({});
 
-  console.log("data: ", data);
+  console.log("dataHÄÄÄÄÄR: ", data);
 
   return (
     <View>

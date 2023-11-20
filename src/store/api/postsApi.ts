@@ -43,6 +43,7 @@ const firebaseBaseQuery = async ({ baseUrl, url, method, body }) => {
 export const postsApi = createApi({
   reducerPath: "postsApi",
   baseQuery: firebaseBaseQuery,
+  tagTypes: ['posts'],
   endpoints: (builder) => ({
     createPost: builder.mutation({
       query: ({ post }) => ({
@@ -51,6 +52,7 @@ export const postsApi = createApi({
         method: "POST", // PUT = modifiera data - DELETE = ta bort data
         body: post,
       }),
+      invalidatesTags: ['posts']
     }),
     getPosts: builder.query({
       query: () => ({
@@ -59,6 +61,7 @@ export const postsApi = createApi({
         method: "GET", // PUT = modifiera data - DELETE = ta bort data
         body: "",
       }),
+      providesTags: ['posts']
     }),
     deletePost: builder.mutation({
       query: (id) => ({

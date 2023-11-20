@@ -1,22 +1,25 @@
+import { Button } from "@rneui/base";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   FlatList,
   StyleSheet,
   TextInput,
-  ScrollView
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
+  ScrollView,
+} from "react-native";
+
 import {
   useGetUsersQuery,
-  useUpdateUserMutation
-} from '../../store/api/usersApi';
-
-import { Button } from '@rneui/base';
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} from "../../store/api/usersApi";
 
 function EditUser({ user }) {
   const userId = user.id;
   const [updateUser, { isLoading, isError, error }] = useUpdateUserMutation();
+
+  const [deleteUser] = useDeleteUserMutation();
 
   // Use state variables for first name and last name
   const [firstName, setFirstName] = useState(user.firstName);
@@ -41,12 +44,12 @@ function EditUser({ user }) {
           const response = await updateUser({
             user: {
               id: userId,
-              firstName: firstName, // Use the updated first name
-              lastName: lastName // Use the updated last name
-            }
+              firstName, // Use the updated first name
+              lastName, // Use the updated last name
+            },
           });
           const result = await response;
-          console.log('result: ', result);
+          console.log("result: ", result);
         }}
       >
         EDIT
@@ -79,6 +82,6 @@ const styles = StyleSheet.create({
   container: {
     margin: 20,
     marginTop: 20,
-    padding: 10
-  }
+    padding: 10,
+  },
 });

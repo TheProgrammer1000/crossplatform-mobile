@@ -8,12 +8,15 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useDispatch, useSelector } from "react-redux";
 
 import { TextComp } from "../../components/TextComp/TextComp";
 import { useCreatePostMutation } from "../../store/api/postsApi";
 
 export function PostForm() {
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+
   const [postText, setPostText] = useState("");
   const loggedInAs = useSelector((state: any) => state.auth.loggedInAs);
   const [createPost] = useCreatePostMutation();
@@ -57,7 +60,11 @@ export function PostForm() {
         value={postText}
         onChangeText={(text) => setPostText(text)}
       />
-      <Button title="Create Post" onPress={submitHandler} />
+      <View>
+        <Text style={{ color: "black" }}>Private</Text>
+        <BouncyCheckbox onPress={(isChecked: boolean) => {}} />
+        <Button title="Create Post" onPress={submitHandler} />
+      </View>
 
       <TextComp title={feedback} />
     </View>

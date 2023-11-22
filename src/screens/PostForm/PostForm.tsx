@@ -41,8 +41,18 @@ export function PostForm() {
           createdBy: loggedInAs.firstName,
           createdDate: new Date().toLocaleDateString(),
           text: postText,
+          private: toggleCheckBox,
         },
       });
+
+
+        console.log(loggedInAs.firstName)
+        console.log(new Date().toLocaleDateString())
+        console.log(postText)
+        console.log(toggleCheckBox)
+
+
+      console.log("toggleCheckBox: ", toggleCheckBox); 
 
       const result = await response;
       console.log("result: ", result);
@@ -62,7 +72,12 @@ export function PostForm() {
       />
       <View>
         <Text style={{ color: "black" }}>Private</Text>
-        <BouncyCheckbox onPress={(isChecked: boolean) => {}} />
+        <BouncyCheckbox
+          onPress={(isChecked: boolean) => {
+            console.log("isChecked: ", isChecked);
+            setToggleCheckBox(isChecked);
+          }}
+        />
         <Button title="Create Post" onPress={submitHandler} />
       </View>
 

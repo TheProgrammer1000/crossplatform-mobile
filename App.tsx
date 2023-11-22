@@ -17,13 +17,6 @@ import PostList from './src/screens/PostList/PostList';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function DetailsScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <UserList />
-    </View>
-  );
-}
 
 const UserListStackScreen = () => {
   return (
@@ -45,12 +38,6 @@ function EditUsersScreen() {
 function HomeScreen({ navigation }) {
   return (
     <View>
-      {/* <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      /> */}
-
       <UserForm />
     </View>
   );
@@ -58,8 +45,6 @@ function HomeScreen({ navigation }) {
 
 const NavigationWrapper = () => {
   const loggedInAs = useSelector((state: any) => state.auth.loggedInAs);
-
-  console.log('loggedInAs: ', loggedInAs);
 
   return (
     <NavigationContainer>
@@ -69,7 +54,7 @@ const NavigationWrapper = () => {
           component={HomeScreen}
           options={{ title: 'Overview' }}
         />
-        <Tab.Screen name="UserList" component={UserListStackScreen} />
+        <Tab.Screen name="UserListScreen" component={UserListStackScreen} />
         <Tab.Screen name="EditUsersScreen" component={EditUsersScreen} />
 
         {loggedInAs ? (
